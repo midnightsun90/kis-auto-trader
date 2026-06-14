@@ -9,5 +9,6 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 
-# 로그
+# 로그 / 런타임 거래 로그
 *.log
+trades.jsonl

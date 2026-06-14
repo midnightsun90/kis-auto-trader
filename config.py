@@ -48,6 +48,10 @@ class Config:
     def tr_balance(self) -> str:
         return "VTTC8434R" if self.paper else "TTTC8434R"   # 주식 잔고조회
 
+    @property
+    def tr_ccld(self) -> str:
+        return "VTTC8001R" if self.paper else "TTTC8001R"   # 주식일별주문체결조회
+
     # 시세(현재가)는 모의/실전 공통
     TR_PRICE = "FHKST01010100"
 

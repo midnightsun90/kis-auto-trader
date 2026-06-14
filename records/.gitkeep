@@ -1,0 +1,2 @@
+# 자동매매 거래 기록이 저장되는 폴더 (export_records.py 가 생성).
+# 장중 trader.py 실행으로 체결 발생 후 export_records.py 로 records_<날짜>.json/.md 생성.

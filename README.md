@@ -15,9 +15,12 @@ kis-auto-trader/
 ├── config.py        # 환경 설정(.env 로드), 모의/실전 도메인·tr_id 전환
 ├── kis_api.py       # KIS API 클라이언트: 토큰·hashkey·시세·주문·잔고
 ├── strategy.py      # 매매 전략(SMA 교차 예시) — 교체 가능한 인터페이스
-├── trader.py        # 자동매매 루프(폴링→신호→주문→로그)
+├── trader.py        # 자동매매 루프(폴링→신호→주문→거래로그)
+├── export_records.py# 거래 기록 산출: 체결내역 + 잔고 → records/
+├── verify_keys.py   # 토큰·시세·잔고 종합 검증
 ├── examples/
 │   └── quote.py     # 최소 검증: 현재가 조회
+├── records/         # 거래 기록 저장 폴더(export_records.py가 생성)
 ├── .env.example     # 비밀키 템플릿 (.env로 복사해 사용)
 ├── requirements.txt
 └── README.md
@@ -38,6 +41,7 @@ kis-auto-trader/
 | 현금 매수 | `POST /uapi/domestic-stock/v1/trading/order-cash` | `VTTC0802U` / `TTTC0802U` |
 | 현금 매도 | `POST /uapi/domestic-stock/v1/trading/order-cash` | `VTTC0801U` / `TTTC0801U` |
 | 주식 잔고조회 | `GET /uapi/domestic-stock/v1/trading/inquire-balance` | `VTTC8434R` / `TTTC8434R` |
+| 일별 주문체결조회 | `GET /uapi/domestic-stock/v1/trading/inquire-daily-ccld` | `VTTC8001R` / `TTTC8001R` |
 
 도메인:
 - 모의투자: `https://openapivts.koreainvestment.com:29443`
@@ -95,14 +99,35 @@ python trader.py --code 005930 --qty 1   # 자동매매(기본 dry-run)
 
 ---
 
-## 5. 면책
+## 5. 거래 기록 (자동매매 체결 증빙)
+
+자동매매가 **실제 체결**된 기록을 남기는 두 경로:
+
+1. **trader.py 거래 로그** — 주문이 나갈 때마다 `trades.jsonl`에 시각·종목·매수매도·수량·응답을 한 줄씩 기록(런타임 로그, gitignore).
+2. **공식 체결내역** — `export_records.py`가 KIS 일별주문체결조회 + 잔고를 받아 `records/records_<날짜>.json`(원본)과 `records_<날짜>.md`(표)로 저장. 이게 거래 기록의 공식 증빙입니다.
+
+```bash
+# 장중(평일 09:00~15:30)에 실제 모의주문을 내고:
+#   .env에서 KIS_DRY_RUN=false 로 바꾼 뒤
+python trader.py --code 005930 --qty 1
+
+# 같은 날(또는 이후) 체결내역을 기록으로 산출:
+python export_records.py            # 오늘
+python export_records.py 20260615   # 특정일(YYYYMMDD)
+```
+
+> 모의주문은 KRX 정규장 시간에만 체결됩니다. 폐장 중 주문은 거부/예약될 수 있습니다.
+
+---
+
+## 6. 면책
 
 교육·과제 목적의 코드입니다. 실전 계좌 사용 시 발생하는 손실은 사용자 책임입니다.
 실거래 전 반드시 모의투자에서 충분히 검증하십시오.
 
 ---
 
-## 6. 참고
+## 7. 참고
 
 - 강의 12_2 (KIS OpenAPI: 토큰·현재가).
 - [KIS Developers 포털](https://apiportal.koreainvestment.com/) · [공식 예제 저장소](https://github.com/koreainvestment/open-trading-api).

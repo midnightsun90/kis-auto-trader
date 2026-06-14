@@ -12,8 +12,11 @@
 """
 
 import argparse
+import json
 import logging
+import os
 import time
+from datetime import datetime
 
 from config import load_config
 from kis_api import KISApi
@@ -25,6 +28,15 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger("trader")
+
+TRADES_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "trades.jsonl")
+
+
+def record_trade(rec: dict):
+    """주문 시도를 한 줄 JSON으로 기록(거래 로그). 공식 체결내역은 export_records.py로 별도 조회."""
+    rec = {"ts": datetime.now().isoformat(timespec="seconds"), **rec}
+    with open(TRADES_LOG, "a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
 def run(code: str, qty: int, interval: float, short: int, long: int):
@@ -46,9 +58,11 @@ def run(code: str, qty: int, interval: float, short: int, long: int):
             if signal == "buy":
                 res = api.buy(code, qty, ord_dvsn="01")  # 시장가
                 position += qty
+                record_trade({"side": "buy", "code": code, "qty": qty, "price": price, "response": res})
                 log.info("매수 주문: %s", res)
             elif signal == "sell" and position > 0:
                 res = api.sell(code, position, ord_dvsn="01")
+                record_trade({"side": "sell", "code": code, "qty": position, "price": price, "response": res})
                 log.info("매도 주문(%d주): %s", position, res)
                 position = 0
 
