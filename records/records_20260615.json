@@ -1,0 +1,154 @@
+{
+  "date": "20260615",
+  "env": "모의투자(paper)",
+  "orders": [
+    {
+      "ts": "2026-06-15T13:16:41",
+      "side": "buy",
+      "code": "035720",
+      "qty": 2,
+      "price": 40750,
+      "response": {
+        "rt_cd": "0",
+        "msg_cd": "40600000",
+        "msg1": "모의투자 매수주문이 완료 되었습니다.",
+        "output": {
+          "KRX_FWDG_ORD_ORGNO": "00950",
+          "ODNO": "0000031807",
+          "ORD_TMD": "131642"
+        }
+      }
+    },
+    {
+      "ts": "2026-06-15T13:16:49",
+      "side": "buy",
+      "code": "005930",
+      "qty": 1,
+      "price": 337750,
+      "response": {
+        "rt_cd": "0",
+        "msg_cd": "40600000",
+        "msg1": "모의투자 매수주문이 완료 되었습니다.",
+        "output": {
+          "KRX_FWDG_ORD_ORGNO": "00950",
+          "ODNO": "0000031818",
+          "ORD_TMD": "131650"
+        }
+      }
+    },
+    {
+      "ts": "2026-06-15T13:16:58",
+      "side": "sell",
+      "code": "035720",
+      "qty": 1,
+      "price": 40700,
+      "response": {
+        "rt_cd": "0",
+        "msg_cd": "40590000",
+        "msg1": "모의투자 매도주문이 완료 되었습니다.",
+        "output": {
+          "KRX_FWDG_ORD_ORGNO": "00950",
+          "ODNO": "0000031824",
+          "ORD_TMD": "131659"
+        }
+      }
+    }
+  ],
+  "ccld": {
+    "detail": [],
+    "summary": {
+      "tot_ord_qty": "4",
+      "tot_ccld_qty": "4",
+      "tot_ccld_amt": "460150",
+      "prsm_tlex_smtl": "131",
+      "pchs_avg_pric": "115037.5000"
+    },
+    "msg": "모의투자 조회할 내역(자료)이 없습니다."
+  },
+  "balance": {
+    "holdings": [
+      {
+        "pdno": "005930",
+        "prdt_name": "삼성전자",
+        "trad_dvsn_name": "현금",
+        "bfdy_buy_qty": "0",
+        "bfdy_sll_qty": "0",
+        "thdt_buyqty": "1",
+        "thdt_sll_qty": "0",
+        "hldg_qty": "1",
+        "ord_psbl_qty": "1",
+        "pchs_avg_pric": "338000.0000",
+        "pchs_amt": "338000",
+        "prpr": "338250",
+        "evlu_amt": "338250",
+        "evlu_pfls_amt": "250",
+        "evlu_pfls_rt": "0.07",
+        "evlu_erng_rt": "0.07396450",
+        "loan_dt": "",
+        "loan_amt": "0",
+        "stln_slng_chgs": "0",
+        "expd_dt": "",
+        "fltt_rt": "4.88000000",
+        "bfdy_cprs_icdc": "15750",
+        "item_mgna_rt_name": "60%",
+        "grta_rt_name": "",
+        "sbst_pric": "0",
+        "stck_loan_unpr": "0.0000"
+      },
+      {
+        "pdno": "035720",
+        "prdt_name": "카카오",
+        "trad_dvsn_name": "현금",
+        "bfdy_buy_qty": "0",
+        "bfdy_sll_qty": "0",
+        "thdt_buyqty": "2",
+        "thdt_sll_qty": "1",
+        "hldg_qty": "1",
+        "ord_psbl_qty": "1",
+        "pchs_avg_pric": "40725.0000",
+        "pchs_amt": "40725",
+        "prpr": "40750",
+        "evlu_amt": "40750",
+        "evlu_pfls_amt": "25",
+        "evlu_pfls_rt": "0.06",
+        "evlu_erng_rt": "0.06138735",
+        "loan_dt": "",
+        "loan_amt": "0",
+        "stln_slng_chgs": "0",
+        "expd_dt": "",
+        "fltt_rt": "-1.81000000",
+        "bfdy_cprs_icdc": "750",
+        "item_mgna_rt_name": "60%",
+        "grta_rt_name": "",
+        "sbst_pric": "0",
+        "stck_loan_unpr": "0.0000"
+      }
+    ],
+    "summary": {
+      "dnca_tot_amt": "100000000",
+      "nxdy_excc_amt": "100000000",
+      "prvs_rcdl_excc_amt": "99621119",
+      "cma_evlu_amt": "0",
+      "bfdy_buy_amt": "0",
+      "thdt_buy_amt": "419450",
+      "nxdy_auto_rdpt_amt": "0",
+      "bfdy_sll_amt": "0",
+      "thdt_sll_amt": "40700",
+      "d2_auto_rdpt_amt": "0",
+      "bfdy_tlex_amt": "0",
+      "thdt_tlex_amt": "131",
+      "tot_loan_amt": "0",
+      "scts_evlu_amt": "379000",
+      "tot_evlu_amt": "100000119",
+      "nass_amt": "100000119",
+      "fncg_gld_auto_rdpt_yn": "",
+      "pchs_amt_smtl_amt": "378725",
+      "evlu_amt_smtl_amt": "379000",
+      "evlu_pfls_smtl_amt": "275",
+      "tot_stln_slng_chgs": "0",
+      "bfdy_tot_asst_evlu_amt": "100000000",
+      "asst_icdc_amt": "119",
+      "asst_icdc_erng_rt": "0.00011900"
+    }
+  }
+}

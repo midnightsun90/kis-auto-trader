@@ -16,7 +16,8 @@ kis-auto-trader/
 ├── kis_api.py       # KIS API 클라이언트: 토큰·hashkey·시세·주문·잔고
 ├── strategy.py      # 매매 전략(SMA 교차 예시) — 교체 가능한 인터페이스
 ├── trader.py        # 자동매매 루프(폴링→신호→주문→거래로그)
-├── export_records.py# 거래 기록 산출: 체결내역 + 잔고 → records/
+├── demo_session.py  # 거래 기록 생성용: 시스템 주문 모듈로 모의주문 체결
+├── export_records.py# 거래 기록 산출: 주문확인 + 체결집계 + 잔고 → records/
 ├── verify_keys.py   # 토큰·시세·잔고 종합 검증
 ├── examples/
 │   └── quote.py     # 최소 검증: 현재가 조회
@@ -107,16 +108,21 @@ python trader.py --code 005930 --qty 1   # 자동매매(기본 dry-run)
 2. **공식 체결내역** — `export_records.py`가 KIS 일별주문체결조회 + 잔고를 받아 `records/records_<날짜>.json`(원본)과 `records_<날짜>.md`(표)로 저장. 이게 거래 기록의 공식 증빙입니다.
 
 ```bash
-# 장중(평일 09:00~15:30)에 실제 모의주문을 내고:
-#   .env에서 KIS_DRY_RUN=false 로 바꾼 뒤
-python trader.py --code 005930 --qty 1
+# 장중(평일 09:00~15:30)에 실제 모의주문을 내고:  (PowerShell)
+$env:KIS_DRY_RUN="false"; python demo_session.py   # 매수 2건·매도 1건 체결
+# (또는 자동매매 루프: python trader.py --code 005930 --qty 1)
 
-# 같은 날(또는 이후) 체결내역을 기록으로 산출:
+# 체결내역을 기록으로 산출:
 python export_records.py            # 오늘
 python export_records.py 20260615   # 특정일(YYYYMMDD)
 ```
 
 > 모의주문은 KRX 정규장 시간에만 체결됩니다. 폐장 중 주문은 거부/예약될 수 있습니다.
+
+**실제 산출된 기록:** [`records/records_20260615.md`](records/records_20260615.md) — 2026-06-15 장중
+모의주문 3건(카카오 매수 2주, 삼성전자 매수 1주, 카카오 매도 1주, 모두 체결)의 주문확인(ODNO)·
+공식 체결집계(총체결 4주 / 460,150원 / 수수료 131원)·체결 후 잔고를 담고 있습니다. (라인별 상세는
+모의투자 특성상 T+1 반영 — 다음 영업일 `export_records.py 20260615` 재실행 시 채워집니다.)
 
 ---
 

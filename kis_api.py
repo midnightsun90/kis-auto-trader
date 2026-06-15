@@ -209,9 +209,10 @@ class KISApi:
         }
 
     # ------------------------- 체결내역(거래기록) -------------------------
-    def daily_ccld(self, start_date: str, end_date: str = None) -> list:
+    def daily_ccld(self, start_date: str, end_date: str = None) -> dict:
         """주식 일별 주문체결 조회. 날짜는 'YYYYMMDD'. 자동매매 '거래 기록'의 공식 근거.
-        반환: 체결/주문 내역 리스트(output1). 각 항목에 종목·매수매도·체결수량·체결단가·시각 등."""
+        반환: {"detail": 라인별 내역(output1), "summary": 집계(output2), "msg": 응답메시지}.
+        (모의투자는 당일 상세가 비어도 집계는 채워지며, 상세는 보통 T+1에 반영됨)"""
         end_date = end_date or start_date
         url = f"{self.cfg.base_url}/uapi/domestic-stock/v1/trading/inquire-daily-ccld"
         params = {
@@ -230,5 +231,7 @@ class KISApi:
             "CTX_AREA_FK100": "",
             "CTX_AREA_NK100": "",
         }
-        resp = self._send("GET", url, self._headers(self.cfg.tr_ccld), params=params)
-        return resp.json().get("output1", [])
+        j = self._send("GET", url, self._headers(self.cfg.tr_ccld), params=params).json()
+        return {"detail": j.get("output1") or [],
+                "summary": j.get("output2") or {},
+                "msg": (j.get("msg1") or "").strip()}
