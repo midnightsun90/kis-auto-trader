@@ -21,15 +21,20 @@ assert not cfg.dry_run, "실제 모의주문을 내려면 KIS_DRY_RUN=false 로 
 api = KISApi(cfg)
 
 orders = [
-    ("buy", "035720", 2),   # 카카오 2주 매수
-    ("buy", "005930", 1),   # 삼성전자 1주 매수
-    ("sell", "035720", 1),  # 카카오 1주 매도 (라운드트립)
+    ("buy", "035720", 3),   # 카카오 3주 매수
+    ("buy", "005930", 2),   # 삼성전자 2주 매수
+    ("buy", "035420", 1),   # NAVER 1주 매수
+    ("buy", "000270", 2),   # 기아 2주 매수
+    ("sell", "035720", 2),  # 카카오 2주 매도 (라운드트립)
+    ("buy", "005380", 1),   # 현대차 1주 매수
+    ("sell", "000270", 1),  # 기아 1주 매도
+    ("sell", "005930", 1),  # 삼성전자 1주 매도
 ]
 
 print("=== 모의주문 실행 ===")
 for side, code, qty in orders:
-    price = api.current_price(code)
     try:
+        price = api.current_price(code)
         res = api.order(code, qty, side=side, ord_dvsn="01")  # 시장가
         odno = (res.get("output") or {}).get("ODNO")
         print(f"{side:4} {code} x{qty} @~{price:,}원 -> rt_cd={res.get('rt_cd')} ODNO={odno} msg={res.get('msg1')}")
