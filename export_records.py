@@ -77,8 +77,8 @@ def to_markdown(date, env, orders, ccld, bal):
                 pr=r.get("avg_prvs", r.get("ord_unpr", "")), amt=r.get("tot_ccld_amt", "")))
     else:
         L += ["", f"> 라인별 상세(output1)는 비어 있습니다 — \"{ccld.get('msg','')}\". "
-              "모의투자는 당일 상세가 T+1에 반영되므로, 다음 영업일 `python export_records.py "
-              f"{date}` 재실행 시 상세가 채워집니다. (집계와 주문확인으로 체결은 이미 증빙됨)"]
+              "모의투자 일별주문체결조회는 라인별 상세를 제공하지 않고 집계(output2)만 반환합니다. "
+              "종목별 체결 증빙은 위 '주문 확인' 표(주문번호 ODNO·KIS 응답)와 '잔고 스냅샷'으로 갈음합니다."]
 
     # 3) 잔고 스냅샷
     bs = bal.get("summary", {}) or {}
